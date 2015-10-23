@@ -7,18 +7,13 @@
 -- these lines here.
 
 DROP DATABASE IF EXISTS tournament;
-DROP VIEW IF EXISTS Standings;
-DROP VIEW IF EXISTS Count;
-DROP VIEW IF EXISTS Wins;
-DROP TABLE IF EXISTS Matches;
-DROP TABLE IF EXISTS Players;
 
 CREATE DATABASE tournament;
 \c tournament;
 
 CREATE TABLE Players (
     id SERIAL PRIMARY KEY,
-    name varchar(255) NOT NULL
+    name varchar NOT NULL
 );
 
 CREATE TABLE Matches (
@@ -30,9 +25,9 @@ CREATE TABLE Matches (
 );
 
 CREATE VIEW Wins AS
-    SELECT Players.id, COUNT(Matches.opponent) AS n
+    SELECT Players.id, COUNT(matches.opponent) AS n
     FROM Players
-    LEFT JOIN (SELECT * FROM Matches WHERE result>0) as Matches
+    LEFT JOIN (SELECT * FROM Matches WHERE result>0) as matches
     ON Players.id = Matches.player
     GROUP BY Players.id;
 
