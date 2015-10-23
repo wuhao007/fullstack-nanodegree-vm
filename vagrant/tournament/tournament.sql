@@ -18,24 +18,23 @@ CREATE TABLE Players (
 
 CREATE TABLE Matches (
     id SERIAL PRIMARY KEY,
-    player int REFERENCES Players(id) ON DELETE CASCADE,
-    opponent int REFERENCES Players(id) ON DELETE CASCADE,
-    result int,
-    CHECK (player <> opponent)
+    winner int REFERENCES Players(id) ON DELETE CASCADE,
+    loser int REFERENCES Players(id) ON DELETE CASCADE,
+    CHECK (winner <> loser)
 );
 
 CREATE VIEW Wins AS
-    SELECT Players.id, COUNT(matches.opponent) AS n
+    SELECT Players.id, COUNT(Matches.winner) AS n
     FROM Players
-    LEFT JOIN (SELECT * FROM Matches WHERE result>0) as matches
-    ON Players.id = Matches.player
+    LEFT JOIN Matches
+    ON Players.id = Matches.winner
     GROUP BY Players.id;
 
 CREATE VIEW Count AS
-    SELECT Players.id, COUNT(Matches.opponent) AS n
+    SELECT Players.id, COUNT(Matches.*) AS n
     FROM Players
     LEFT JOIN Matches
-    ON Players.id = Matches.player
+    ON Players.id = Matches.winner OR Players.id = Matches.loser
     GROUP BY Players.id;
 
 CREATE VIEW Standings AS
