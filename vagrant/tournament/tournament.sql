@@ -15,16 +15,18 @@ DROP TABLE IF EXISTS Players;
 
 CREATE DATABASE tournament;
 \c tournament;
+
 CREATE TABLE Players (
-    id SERIAL primary key,
-    name varchar(255)
+    id SERIAL PRIMARY KEY,
+    name varchar(255) NOT NULL
 );
 
 CREATE TABLE Matches (
-    id SERIAL primary key,
-    player int references Players(id),
-    opponent int references Players(id),
-    result int
+    id SERIAL PRIMARY KEY,
+    player int REFERENCES Players(id) ON DELETE CASCADE,
+    opponent int REFERENCES Players(id) ON DELETE CASCADE,
+    result int,
+    CHECK (player <> opponent)
 );
 
 CREATE VIEW Wins AS
@@ -44,4 +46,5 @@ CREATE VIEW Count AS
 CREATE VIEW Standings AS
     SELECT Players.id, Players.name, Wins.n as wins, Count.n as matches
     FROM Players, Count, Wins
-    WHERE Players.id = Wins.id AND Wins.id = Count.id;
+    WHERE Players.id = Wins.id AND Wins.id = Count.id
+    ORDER BY wins DESC
