@@ -6,6 +6,8 @@
 -- You can write comments in this file by starting them with two dashes, like
 -- these lines here.
 
+CREATE TABLE tournament
+\c tournament;
 DROP VIEW IF EXISTS Standings;
 DROP VIEW IF EXISTS Count;
 DROP VIEW IF EXISTS Wins;
@@ -25,10 +27,10 @@ CREATE TABLE Matches (
 );
 
 CREATE VIEW Wins AS
-    SELECT Players.id, COUNT(matches.opponent) AS n
+    SELECT Players.id, COUNT(Matches.opponent) AS n
     FROM Players
-    LEFT JOIN (SELECT * FROM Matches WHERE result>0) as matches
-    ON Players.id = matches.player
+    LEFT JOIN (SELECT * FROM Matches WHERE result>0) as Matches
+    ON Players.id = Matches.player
     GROUP BY Players.id;
 
 CREATE VIEW Count AS
