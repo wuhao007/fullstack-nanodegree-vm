@@ -1,1 +1,1 @@
-{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/hao.wu/GoogleDrive/192.168.1.76/GitHub/fullstack/vagrant","disabled":false}}}
+{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/Users/hao.wu/GoogleDrive/192.168.1.76/GitHub/fullstack/vagrant","disabled":false,"__vagrantfile":true}}}
